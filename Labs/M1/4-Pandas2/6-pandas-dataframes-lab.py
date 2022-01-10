@@ -5,6 +5,10 @@ Pandas dataframes lab
 Fill in your code after each comment (unless code already provided).
 
 @author: Glenn Bruns
+
+Student Name: Raymond Shum
+Due Date: 01-11-2022
+Class: CST383
 """
 
 import numpy as np

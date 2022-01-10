@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-Homework 1
+Name: Raymond Shum
+Assignment: Homework 1
+Due Date: 01-11-2022
+Class: CST383
+Description: Exercises on Week 1 lectures, covering Python and NumPy
+fundamentals.
 """
 
 import numpy as np

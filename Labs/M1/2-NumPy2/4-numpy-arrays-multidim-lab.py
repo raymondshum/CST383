@@ -4,6 +4,10 @@ Multidimensional NumPy arrays lab
 Enter your Python code after each prompt.
 
 @author: Glenn Bruns
+
+Student Name: Raymond Shum
+Due Date: 01-11-2022
+Class: CST383
 """
 
 import random

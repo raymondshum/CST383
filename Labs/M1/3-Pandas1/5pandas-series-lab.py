@@ -3,6 +3,10 @@
 Pandas series lab
 
 @author: Glenn Bruns
+
+Student Name: Raymond Shum
+Due Date: 01-11-2022
+Class: CST383
 """
 
 import numpy as np
