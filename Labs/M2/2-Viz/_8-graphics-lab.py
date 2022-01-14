@@ -3,6 +3,10 @@
 Python graphics lab
 
 @author: Glenn Bruns
+
+Student Name: Raymond Shum
+Due Date: 01-11-2022
+Class: CST383
 """
 
 import numpy as np
@@ -37,56 +41,84 @@ df = pd.read_csv("https://raw.githubusercontent.com/grbruns/cst383/master/mtcars
 # https://www.rdocumentation.org/packages/datasets/versions/3.6.0/topics/mtcars
 
 # (YOUR CODE HERE -- and similarly for further questions)
+df.info()
 
 # Create a basic scatterplot showing each car’s mpg as a function of engine 
 # displacement.  (in other words, mpg goes on the y axis and displacement on 
 # the x axis.)  Use the matplotlib scatter() function.
+plt.scatter(df['disp'], df['mpg'])
 
 # Improve your plot by adding 'displacement (cu. inches)' as the x axis
 # label, and 'miles per gallon' as the y axis label.
+plt.xlabel('cu. inches')
+plt.ylabel('miles per gallon')
 
 # Make the dots dark red
+plt.scatter(df['disp'], df['mpg'],color='r')
 
 # Use upward triangles instead of circles
 # (hint: use the 'marker' option in plt.scatter)
+plt.scatter(df['disp'], df['mpg'],marker='^')
 
 # Add a title
 # Hint: in scatter plats, we often say 'A by B' when A is the
 # thing on the y axis and B is the thing on the x axis.  For
 # example: 'MPG by engine displacement'.
+plt.title('MPG by engine displacement')
 
 # Compute the average mpg, and add a black dotted horizontal
 # line to show this value
+avg_mpg = df['mpg'].mean()
+plt.axhline(y=avg_mpg, color='k', linestyle=':')
 
 # Color the points in the plot according to whether the transmission
 # is manual or automatic.  Use blue if automatic (am = 0) and orange if manual (am = 1).
 # Note: blue/orange are easy to distinguish for many people, even most
 # people with some form of colorblindness.)
+mask = df['am'] > 0
+man = df[mask]
+am = df[~mask]
+plt.scatter(man['disp'], man['mpg'],color='orange', marker='^',label="manual")
+plt.scatter(am['disp'], am['mpg'],color='blue', marker='^',label="automatic")
 
 # Add a legend
 # You may want to do this by splitting the data up, and then
 # calling plt.scatter() twice, once for am=0 and once for am=1.
 # Hint: use the 'label' parameter in plt.scatter(), and then plt.legend().
+plt.legend()
 
 # Compute the number of cars for each possible value of number of cylinders, 
 # and assign the result to variable 'cyl_counts'.
 # Hint: you can use this code:  cyl_counts = df['cyl'].value_counts()
+cyl_counts = df['cyl'].value_counts()
 
 # Using matplot lib, make a bar plot showing the number
 # of cars for each number of cylinders
+labels = cyl_counts.index
+x_pos = np.arange(len(labels))
+plt.bar(x_pos, cyl_counts)
+plt.xticks(x_pos,labels)
 
 # improve your plot by adding title, x and y axis labels, and the color
 # of your choice
+plt.xlabel('num cars')
+plt.ylabel('num cylinders')
+plt.title('number of cars for each possible value of number of cylinders')
 
 # Repeat the process, but this time use Seaborn to create your
 # barplot
 # Note: you can use plt.title() to give your plot a title
+sns.countplot(df['cyl'], color='darkred')
+plt.title('cars per number of cylinders')
 
 # Create a histogram of mpg values, using matplotlib, then
 # seaborn, then pandas
+plt.hist(df['mpg'])
+df['mpg'].plot.hist()
+sns.distplot(df['mpg'])
 
 # If you still have time, experiment with seaborn and pandas plots.
 # For example, in pandas, what happens if you try to plot two columns
 # of the mtcars data?
-
+df.plot(x='mpg', y=['hp', 'disp'], kind='bar')
 
