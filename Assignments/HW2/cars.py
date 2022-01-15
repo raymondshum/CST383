@@ -1,5 +1,14 @@
 # -*- coding: utf-8 -*-
 """
+Name: Raymond Shum
+Assignment: Homework 1
+Due Date: 01-18-2022
+Class: CST383
+Description: Exercises on Week 2 lectures, covering Pandas, NumPy and
+Matplotlib.
+"""
+
+"""
 
 Using Pandas Series.
 
@@ -63,31 +72,31 @@ df = pd.read_csv("https://raw.githubusercontent.com/grbruns/cst383/master/mtcars
 # Do you think it was a lot lower than now?
 # Compute the average value of the mpg series.
 # Enter your code on the line immediately below this line.
-
+df['mpg'].mean()
 
 #@ 2
 # What was the best MPG among these 1974 cars?
 # Compute the maximum value of the mpg column.
-
+df['mpg'].max()
 
 #@ 3
 # How many different numbers of forward gears did the cars in this
 # dataset have?
 # Compute the counts for each of the unique values in the 'gear' column.
-
+df['gear'].value_counts()
 
 #@ 4
 # Do many cars have MPG that is greater than 20 MPG?
 # Compute a Series containing the MPG values greater than 20.
 # hint: use a boolean mask
-
+df.loc[df['mpg'] > 20, 'mpg']
 
 #@ 5
 # What fraction of the cars have an MPG higher than 22 MPG?
 # Compute a value between 0 and 1 giving the fraction of the
 # cars with MPG greater than 22.
 # hint: use x.size to get the number of elements in a series x
-
+(df['mpg'] > 22).sum() / df['mpg'].size
 
 #@ 6
 # Do many cars have MPG values that are within 20% of the top MPG value?
@@ -95,7 +104,7 @@ df = pd.read_csv("https://raw.githubusercontent.com/grbruns/cst383/master/mtcars
 # 0.8 times the maximum MPG value in the data set.
 # Hint: again, use a boolean mask.  To create the mask you'll
 # need the max value of the MPG column.
-
+df.loc[df['mpg'] > df['mpg'].max() * .8, 'mpg']
 
 #@ 7
 # What are the 1/4 mile times for the cars with high MPG values?
@@ -105,52 +114,52 @@ df = pd.read_csv("https://raw.githubusercontent.com/grbruns/cst383/master/mtcars
 # Hint: you can use the same boolean mask you used in the last
 # problem, but this time use it with the Series of the qsec
 # column values.
-
+df.loc[df['mpg'] > df['mpg'].max() * .8, 'qsec']
 
 #@ 8
 # Are the gas guzzlers a lot faster than the high MPG cars?
 # Compute a Series containing the qsec values for the cars that
 # have MPG values less than 1.2 times the minimum MPG value
 # in the data set.
-
+df.loc[df['mpg'] < df['mpg'].min() * 1.2, 'qsec']
 
 #@ 9
 # Do cars with a small number of forward gears have high MPG?
 # Compute a Series containing values in the mpg column for which the value in the 'gear' column is 3
 # hint: index into a series of the mpg values using a boolean mask based on a series of the gear values
-
+df[df['gear'] == 3]['mpg']
 
 #@ 10
 # What about cars with a large number of forward gears?
 # Compute a Series containing values in the mpg column for which the value in the 'gear' column is 5
-
+df.loc[df['gear'] == 5, 'mpg']
 
 #@ 11
 # On average, what's the MPG for cars with 3 forward gears?
 # Compute the average value of the mpg values for which the corresponding 'gear' value is 3
-
+np.mean(df[df['gear'] == 3]['mpg'])
 
 #@ 12
 # On average, what's the MPG for cars with 5 forward gears?
 # Compute the average value of the mpg values for which the corresponding 'gear' value is 5
-
+df.loc[df['gear'] == 5, 'mpg'].aggregate('mean')
 
 #@ 13
 # Are lighter cars faster?
 # Compute the average 1/4 mile time for cars with greater than average weight.
-
+df.loc[df['wt'] > df['wt'].mean(), 'qsec'].mean()
 
 #@ 14
 # Now compare with the speed of lighter cars.
 # Compute the average 1/4 mile time for cars with less than average weight.
-
+np.mean(df[df['wt'] < df['wt'].mean()]['qsec'])
 
 #@ 15
 # Is there a big difference in power between cars with V6 and V8 engines?
 # Calculate the average hp value for cars where vs is 0 and cyl is 8.
-
+df.loc[(df['vs'] == 0) & (df['cyl'] == 8), 'hp'].mean()
 
 #@ 16
 # For comparison, what's the power for cars with V6 engines?
 # Calculate the average hp value for cars where vs is 0 and cyl is 6.
-
+df[(df['vs'] == 0) & (df['cyl'] == 6)]['hp'].mean()
