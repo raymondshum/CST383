@@ -112,19 +112,19 @@ major = df['Major'].copy()
 # Compute the length of the 'major' series.  Your result should
 # be a single integer.
 # assume major is defined
-
+major.size
 
 #@ 2
 # Compute the first 10 elements of the data in the unemp series.
 # The result should be a NumPy array.
 # assume unemp is defined
-
+np.array(unemp.iloc[:10])
 
 #@ 3
 # Compute the maximum value of the unemp series (use a pandas method).
 # The result should be a single value.
 # assume unemp is defined
-
+unemp.max()
 
 #@ 4
 # Set the index of unemp to be the data in the major series, then
@@ -132,7 +132,8 @@ major = df['Major'].copy()
 # assume unemp and major are defined
 # keep unemp as Series (not as a DataFrame)
 # (modify unemp)
-
+unemp.set_axis(major.values, inplace=True)
+unemp.iloc[:5].index
 
 #@ 5
 # Compute the 10 majors with the lowest unemployment rate, sorted 
@@ -145,26 +146,26 @@ major = df['Major'].copy()
 # SOIL SCIENCE                                  0.000000
 # ENGINEERING MECHANICS PHYSICS AND SCIENCE     0.006334
 # assume unemp is defined, and is indexed by majors
-
+unemp.sort_values().iloc[:10]
 
 #@ 6
 # Compute the number of majors that have unemployment levels less than 0.05
 # Your result should be a single number.
 # assume unemp is defined
-
+(unemp < .05).sum()
 
 #@ 7
 # Compute the fraction of majors that have unemployment levels less than 0.06
 # (note: 0.06, not 0.05)
 # Your result will be a value between 0 and 1.
 # assume unemp is defined
-
+(unemp < .06).sum() / unemp.size
 
 #@ 8
 # Compute the fraction of majors that have unemployment levels lower than the
 # unemployment level of 'COMPUTER SCIENCE'.
 # assume unemp is defined
-
+(unemp < unemp.loc['COMPUTER SCIENCE']).sum() / unemp.size
 
 #
 # data frames
@@ -197,23 +198,23 @@ df.dropna(inplace=True)
 
 #@ 9
 # Compute a series containing the values for major 'MICROBIOLOGY'.
-
+df.loc['MICROBIOLOGY']
 
 #@ 10
 # Compute the total number of people represented in the
 # data set (in other words, sum the values in the 'Total' column).
 # Your result should be a single number.
-
+df['Total'].sum()
 
 #@ 11
 # Compute the overall fraction of women
 # Your result should be a number between 0.55 and 0.60
-
+df['Women'].sum() / df['Total'].sum()
 
 #@ 12
 # Compute the major with the highest value of ShareWomen
 # Your result should be a single string value.
-
+df.index[(df['ShareWomen'] == df['ShareWomen'].max())][0]
 
 #@ 13
 # Compute the median earnings for all the majors with
@@ -223,7 +224,7 @@ df.dropna(inplace=True)
 # MEDICAL ASSISTING SERVICES                       42000
 # SPECIAL NEEDS EDUCATION                          35000
 # ELEMENTARY EDUCATION                             32000
-
+df.loc[df['ShareWomen'] > .9, 'Median']
 
 #@ 14
 # Compute a series containing the median earnings for all the 
@@ -233,13 +234,13 @@ df.dropna(inplace=True)
 # PETROLEUM ENGINEERING                          110000
 # MINING AND MINERAL ENGINEERING                  75000
 # NAVAL ARCHITECTURE AND MARINE ENGINEERING       70000
-
+df.loc[df['ShareWomen'] < .15, 'Median']
 
 #@ 15
 # Compute the ratio of the median of the highest earning major
 # to the median of the lowest earning major.  Your output should
 # be a single number, and it should be close to 5.
-
+df['Median'].max() / df['Median'].min()
 
 #@ 16
 # Compute the top 10 majors by median earnings.  For each of these
@@ -252,12 +253,12 @@ df.dropna(inplace=True)
 # MINING AND MINERAL ENGINEERING              75000  55000   90000
 # METALLURGICAL ENGINEERING                   73000  50000  105000
 # NAVAL ARCHITECTURE AND MARINE ENGINEERING   70000  43000   80000
-
+df[['Median','P25th','P75th']].sort_values('Median', ascending=False).iloc[:10]
 
 #@ 17
 # Repeat the previous problem, but compute the 10 majors with the
 # lowest median earnings, and sort with lowest meadian salary first
-
+df[['Median','P25th','P75th']].sort_values('Median', ascending=True).iloc[:10]
 
 #@ 18
 # For each major, compute the fraction of people who have a non-college
@@ -280,7 +281,7 @@ df.dropna(inplace=True)
 # Major_category
 # Business                               1302376.0
 # Humanities & Liberal Arts               713468.0
-
+(df['Non_college_jobs'] / df['Total']).sort_values(ascending=False).iloc[:10]
 
 #@ 20
 # For each major category, compute the fraction of people
@@ -291,7 +292,7 @@ df.dropna(inplace=True)
 # Business                               0.192328
 # Humanities & Liberal Arts              0.105361
 # Education                              0.082569
-
+(df.groupby('Major_category')['Total'].sum() / df['Total'].sum()).sort_values(ascending=False)
 
 #@ 21
 # Compute the number of majors associated with each major
@@ -301,14 +302,15 @@ df.dropna(inplace=True)
 # Humanities & Liberal Arts              15
 # Biology & Life Science                 14
 #
-
+df['Major_category'].value_counts()
 
 #@ 22
 # Add a new variable 'HighShareWomen' to the data frame.
 # This variable should be True if ShareWomen > 0.50, and
 # False otherwise.  Then compute the first five values in
 # the HishShareWoman column.
-
+df['HighShareWomen'] = df['ShareWomen'] > 0.50
+df['HighShareWomen'].head(5)
 
 ###############################################################
 # In the remaining problems you can assume that df additionally
@@ -319,7 +321,7 @@ df.dropna(inplace=True)
 #@ 23
 # Compute the fraction of majors that have a high share of women.
 # Your result should be a number close to 0.56
-
+df['HighShareWomen'].sum() / df['HighShareWomen'].size
 
 #@ 24
 # For each major, compute the fraction of those working in
@@ -332,7 +334,7 @@ df.dropna(inplace=True)
 # MISCELLANEOUS FINE ARTS                   0.226048
 # CLINICAL PSYCHOLOGY                       0.219168
 # STUDIO ARTS                               0.211227
-
+(df['Low_wage_jobs'] / df['Total']).sort_values(ascending=False).iloc[:10]
 
 #@ 25
 # For each major category, compute the maximum of the median
@@ -343,7 +345,7 @@ df.dropna(inplace=True)
 # Engineering                            110000
 # Physical Sciences                       62000
 # Business                                62000
-
+df.groupby('Major_category')['Median'].max().sort_values(ascending=False)
 
 #@ 26
 # Compute the average median salary for each major category,
@@ -353,7 +355,7 @@ df.dropna(inplace=True)
 # Psychology & Social Work               30100.000000
 # Humanities & Liberal Arts              31913.333333
 # Education                              32350.000000
-
+df.groupby('Major_category')['Median'].mean().sort_values()
 
 # The answer to the previous question does not accurately
 # represent the median salary for a major category, because
@@ -370,7 +372,8 @@ df.dropna(inplace=True)
 # associated with the major, and then compute the first five values in the new
 # column.
 # The sum of the new column should be 1.0 or very close to 1.0.
-
+df['Major_share'] = (df['Total'] / df['Total'].sum())
+df['Major_share'].iloc[:5]
 
 ###############################################################
 # In the remaining problems you can assume that df additionally
@@ -390,7 +393,7 @@ df.dropna(inplace=True)
 # Arts                                   31716.044578
 # Biology & Life Science                 34446.722572
 # Business                               40942.111188
-
+df.groupby('Major_category').apply(lambda df: (df['Major_share'] * df['Median']).sum() / df['Major_share'].sum())
 
 #@ 29
 # Using the same idea as the last problem to compute
@@ -400,7 +403,10 @@ df.dropna(inplace=True)
 # Agriculture & Natural Resources        0.051505
 # Arts                                   0.089105
 # Biology & Life Science                 0.070219
+def unem(df):
+  return (df['Major_share'] * df['Unemployment_rate']).sum() / df['Major_share'].sum()
 
+df.groupby('Major_category').apply(unem)
 
 #@ 30
 # Compute the share of women by major category.  to do this
@@ -412,7 +418,7 @@ df.dropna(inplace=True)
 # Arts                                   0.623694
 # Biology & Life Science                 0.592566
 # Business                               0.487205
-
+df.groupby('Major_category').apply(lambda df: df['Women'].sum() / df['Total'].sum())
 
 #@ 31
 # compute the mean median salary for majors with
@@ -426,7 +432,12 @@ df.dropna(inplace=True)
 # False    43633.592490
 # True     34692.752128
 # dtype: float64
+def mean_med(df):
+  num = (df['Median'] * df['Major_share']).sum()
+  tot = df['Major_share'].sum()
+  return np.mean(num / tot) 
 
+df.groupby('HighShareWomen').apply(mean_med)
 
 #@ 32
 # Compute the fraction of low wage jobs by major category.
@@ -436,7 +447,12 @@ df.dropna(inplace=True)
 # Engineering                            0.046651
 # Computers & Mathematics                0.053965
 # Health                                 0.067504
+def frac_low(df):
+  num = df['Low_wage_jobs'].sum()
+  tot = df['Total'].sum()
+  return (num/tot).mean()
 
+df.groupby('Major_category').apply(frac_low).sort_values()
 
 #@ 33
 # Compute the unemployment rate by major category.
@@ -449,7 +465,12 @@ df.dropna(inplace=True)
 # Arts                                   0.089233
 # Humanities & Liberal Arts              0.085852
 # Law & Public Policy                    0.085258
+def unem_r(df):
+  num = df['Unemployed'].sum()
+  tot = (df['Unemployed'] + df['Employed']).sum()
+  return (num/tot).mean()
 
+df.groupby('Major_category').apply(unem_r).sort_values(ascending=False)
 
 
 
