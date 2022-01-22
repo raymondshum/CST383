@@ -270,7 +270,7 @@ df[['Median','P25th','P75th']].sort_values('Median', ascending=True).iloc[:10]
 # COSMETOLOGY SERVICES AND CULINARY ARTS                               0.702569
 # NUCLEAR, INDUSTRIAL RADIOLOGY, AND BIOLOGICAL TECHNOLOGIES           0.697070
 # ELECTRICAL, MECHANICAL, AND PRECISION TECHNOLOGIES AND PRODUCTION    0.681314
-
+(df['Non_college_jobs'] / df['Total']).sort_values(ascending=False).iloc[:10]
 
 #@ 19
 # For each major category, compute the total number of people
@@ -281,7 +281,7 @@ df[['Median','P25th','P75th']].sort_values('Median', ascending=True).iloc[:10]
 # Major_category
 # Business                               1302376.0
 # Humanities & Liberal Arts               713468.0
-(df['Non_college_jobs'] / df['Total']).sort_values(ascending=False).iloc[:10]
+df.groupby('Major_category')['Total'].sum().sort_values(ascending=False)
 
 #@ 20
 # For each major category, compute the fraction of people
@@ -345,6 +345,7 @@ df['HighShareWomen'].sum() / df['HighShareWomen'].size
 # Engineering                            110000
 # Physical Sciences                       62000
 # Business                                62000
+# df.groupby('Major_category')['Median'].max().sort_index(ascending=False).sort_values(kind='mergesort', ascending=False)
 df.groupby('Major_category')['Median'].max().sort_values(ascending=False)
 
 #@ 26
