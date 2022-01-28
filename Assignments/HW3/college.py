@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 """
+Student Name: Raymond Shum
+Due Date: 01-25-2022
 
 CST 383, Homework 3.
 

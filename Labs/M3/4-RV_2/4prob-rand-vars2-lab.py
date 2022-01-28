@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 """
+Student Name: Raymond Shum
+Due Date: 01-25-2022
+
 Probability lab #4
 
 @author: Glenn
