@@ -1,5 +1,11 @@
 # -*- coding: utf-8 -*-
 """
+Student Name: Raymond Shum
+Class: CST 383
+Assignment: Week 4, HW4b
+Due Date: Feb 01, 2022
+"""
+"""
 
 Compute results of measles testing using simulation and Bayes' Law
  
