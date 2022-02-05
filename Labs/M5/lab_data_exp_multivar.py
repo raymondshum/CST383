@@ -93,7 +93,8 @@ df['Selective'] = pd.cut(
     labels=['high','medium','low']
     )
 
-sns.boxplot(x='Selective', 
-            y='Outstate', 
-            data=df
-            )
+sns.boxplot(
+    x='Selective', 
+    y='Outstate', 
+    data=df
+    )
