@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
 """
+Student Name: Raymond Shum
+Class: CST383-30_22
+Assignment: Lab: kNN anomaly detection
+Due Date: 8-Feb-22
+"""
+
+"""
 
 kNN anomaly detection with application to college data
 

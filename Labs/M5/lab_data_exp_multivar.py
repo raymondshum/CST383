@@ -1,3 +1,10 @@
+"""
+Student Name: Raymond Shum
+Class: CST383-30_22
+Assignment: Lab: data exploration - two variables
+Due Date: 8-Feb-22
+"""
+
 import numpy as np
 import pandas as pd
 from matplotlib import rcParams

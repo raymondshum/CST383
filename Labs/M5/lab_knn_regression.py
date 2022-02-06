@@ -1,4 +1,11 @@
 # -*- coding: utf-8 -*-
+"""
+Student Name: Raymond Shum
+Class: CST383-30_22
+Assignment: Lab: kNN regression
+Due Date: 8-Feb-22
+"""
+
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
